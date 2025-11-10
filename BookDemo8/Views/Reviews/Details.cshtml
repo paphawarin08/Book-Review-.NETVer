@@ -1,0 +1,225 @@
+﻿@model BookDemo8.BookReviews
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="details-page">
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="image-container">
+                <img src="@Url.Content("~/Content/images/" + Model.ImageUrl)" class="book-image" />
+            </div>
+            <div class="details-box">
+                <div class="book-title">@Html.DisplayFor(model => model.BookTitle)</div>
+
+                <div class="detail-item tag-container">
+                    <span class="tag">@Html.DisplayFor(model => model.Category)</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="value">@Html.DisplayFor(model => model.ReviewContent)</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="stars">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Model.Rating)
+                            {
+                <i class="fas fa-star"></i> <!-- ดาวเต็ม --> }
+                                else
+                                {
+                <i class="far fa-star"></i> <!-- ดาวว่าง -->}
+                            }
+                    </span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">พิกัดหนังสือ:</span>
+                    <span class="value">@Html.DisplayFor(model => @model.PurchaseLink)</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">รีวืวโดย:</span>
+                    <span class="value">@Html.DisplayFor(model => model.AspNetUsers.Email)</span>
+                </div>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ReviewId }, new { @class = "btn btn-primary" }) |
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* พื้นหลัง */
+    body {
+        background-color: #FFFFCC;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* คอนเทนเนอร์หลัก */
+    .details-page .container {
+        max-width: 900px;
+        width: 90%;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    /* จัดภาพและเนื้อหาให้อยู่ข้างกัน */
+    .content-wrapper {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    /* รูปภาพ */
+    .image-container {
+        flex-shrink: 0;
+    }
+
+    .book-image {
+        max-width: 750px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* กล่องรายละเอียด */
+    .details-box {
+        flex-grow: 1;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .book-title {
+        font-size: 35px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 25px 25px;
+        border: none; /* ลบเส้นขอบออก */
+        border-bottom: none; /* กรณีมีเฉพาะเส้นล่าง */
+        padding: 10px 0; /* เพิ่ม padding ระหว่างบรรทัดแทน */
+    }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+    .label {
+        font-weight: bold;
+        color: #666;
+        font-size: 16px;
+    }
+
+    .value {
+        color: #333;
+        font-size: 16px;
+    }
+
+    /* ปุ่ม */
+    .action-buttons {
+        display: flex;
+        justify-content: center; /* จัดให้อยู่กลางแนวนอน */
+        align-items: center; /* จัดให้อยู่กลางแนวตั้ง */
+        margin-top: auto; /* ดันปุ่มให้ลงมาชิดด้านล่างของกล่อง */
+        padding-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+        .btn:last-child {
+            margin-right: 0; /* ลบระยะห่างปุ่มสุดท้าย */
+        }
+
+    .btn-primary {
+        background-color: #5cb85c;
+        color: #fff;
+    }
+
+        .btn-primary:hover {
+            background-color: #4cae4c;
+        }
+
+    .btn-secondary {
+        background-color: #f0ad4e;
+        color: #fff;
+    }
+
+        .btn-secondary:hover {
+            background-color: #ec971f;
+        }
+
+
+    /* ลิงก์ซื้อ */
+    .purchase-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        .purchase-link:hover {
+            text-decoration: underline;
+        }
+
+    /* คอนเทนเนอร์สำหรับจัดการแท็ก */
+    .tag-container {
+        display: flex; /* ใช้ Flexbox */
+        justify-content: center; /* จัดให้อยู่กลางแนวนอน */
+        align-items: center; /* จัดให้อยู่กลางแนวตั้ง */
+        flex-wrap: wrap; /* รองรับการย่อ-ขยายหากแท็กเกินพื้นที่ */
+        margin: 10px 0; /* เพิ่มระยะห่างระหว่างบรรทัด */
+    }
+
+    /* สไตล์สำหรับแท็ก */
+    .tag {
+        display: inline-block;
+        background-color: #f0ad4e;
+        color: white;
+        font-size: 14px;
+        padding: 5px 10px;
+        border-radius: 20px;
+        margin: 5px; /* เพิ่มระยะห่างระหว่างแท็กในกรณีมีหลายแท็ก */
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .stars {
+        color: #ffc107; /* สีของดาว */
+        font-size: 20px; /* ขนาดของดาว */
+        display: flex; /* ใช้ Flexbox */
+        justify-content: center; /* จัดให้อยู่กลางแนวนอน */
+        align-items: center; /* จัดให้อยู่กลางแนวตั้ง */
+        margin-top: 10px; /* เพิ่มระยะห่างจาก label หรือส่วนบน */
+    }
+
+        .stars .fa-star {
+            margin-right: 2px; /* ระยะห่างระหว่างดาว */
+        }
+
+</style>

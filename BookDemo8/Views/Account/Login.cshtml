@@ -1,0 +1,153 @@
+﻿@using BookDemo8.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<!-- ใช้ container-fluid และปรับการจัดตำแหน่ง -->
+<div class="d-flex-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- ฟอร์มการเข้าสู่ระบบ -->
+            <div class="col-md-12">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Log in" class="btn btn-default w-100" />
+                            </div>
+                        </div>
+                        <p class="text-center">
+                            @Html.ActionLink("Register as a new user", "Register")
+                        </p>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<style>
+    /* รีเซ็ต box-sizing */
+    * {
+        box-sizing: border-box;
+    }
+
+    /* ปรับสีพื้นหลังของทั้งหน้า */
+    body {
+        background-color: #FFFFCC;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center; /* จัดตรงกลางแนวนอน */
+        align-items: center; /* จัดตรงกลางแนวตั้ง */
+    }
+
+    /* ใช้ flexbox เพื่อจัดตำแหน่งฟอร์มให้ตรงกลาง */
+    .d-flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90%; /* ใช้เปอร์เซ็นต์เพื่อตอบสนองหน้าจอ */
+        max-width: 600px; /* กำหนดความกว้างสูงสุด */
+        height: 300px;
+        padding: 20px;
+        background-color: #CEB9A5;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 0 auto; /* จัดให้อยู่ตรงกลาง */
+    }
+
+    /* ปรับให้ฟอร์มมีพื้นหลังขาว */
+    #loginForm {
+        align-items: center; /* จัดให้อยู่ตรงกลางแนวนอน */
+        width: 100%;
+    }
+
+    /* ปรับข้อความให้อยู่ตรงกลาง */
+    .text-center {
+        text-align: center;
+    }
+
+    /* ฟอร์มกรอกข้อมูล */
+    .form-group {
+        width: 100%; /* กำหนดความกว้างของฟอร์ม */
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: row;
+        align-items: center; /* จัดข้อความและ input ให้อยู่ตรงกลาง */
+    }
+
+    /* ช่องกรอกข้อมูล */
+    .form-control {
+        width: 100%; /* กำหนดความกว้าง */
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+
+
+    /* ปรับขนาดฟอร์มให้เหมาะสม */
+    .form-horizontal .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+    }
+
+    /* เพิ่มระยะห่างระหว่างปุ่ม */
+    .btn {
+        margin-top: 15px;
+    }
+
+    /* ปรับการแสดงผลข้อความให้ตรงกลาง */
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+
+

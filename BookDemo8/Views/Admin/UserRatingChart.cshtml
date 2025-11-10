@@ -1,0 +1,38 @@
+﻿@model BookDemo8.Models.UserRatingChartViewModel
+
+<h2>@Model.UserName's Book Ratings</h2>
+
+<canvas id="ratingChart" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('ratingChart').getContext('2d');
+    var ratingChart = new Chart(ctx, {
+        type: 'bar', // ใช้แผนภูมิแท่ง (Bar Chart)
+        data: {
+            labels: @Html.Raw(Json.Encode(Model.BookAverageRatings.Select(x => x.BookTitle).ToList())), // ชื่อหนังสือ
+            datasets: [{
+                label: 'Average Rating',
+                data: @Html.Raw(Json.Encode(Model.BookAverageRatings.Select(x => x.AverageRating).ToList())), // คะแนนเฉลี่ย
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(1) + ' stars'; // แสดงคะแนนเฉลี่ยแบบทศนิยม 1 ตำแหน่ง
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="699705d201b348f8838eee355f470493" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.BookReviews" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.StorePosts" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Stores" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK__BookRevie__UserI__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Stores__OwnerId__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__StorePost__Store__03F0984C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

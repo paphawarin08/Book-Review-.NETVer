@@ -1,0 +1,66 @@
+﻿@model BookDemo8.Models.EditUserViewModel
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+
+@using (Html.BeginForm("EditUser", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <h4>แก้ไขผู้ใช้</h4>
+    <hr />
+
+    @Html.HiddenFor(model => model.UserId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserName, "ชื่อผู้ใช้", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, "อีเมล", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <h4>รีวิวของผู้ใช้</h4>
+    <hr />
+
+    for (int i = 0; i < Model.Reviews.Count; i++)
+    {
+        <div class="form-group">
+            @Html.HiddenFor(m => Model.Reviews[i].ReviewId)
+
+            @Html.LabelFor(m => Model.Reviews[i].BookTitle, "ชื่อหนังสือ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => Model.Reviews[i].BookTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => Model.Reviews[i].BookTitle, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(m => Model.Reviews[i].ReviewContent, "เนื้อหารีวิว", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => Model.Reviews[i].ReviewContent, new { @class = "form-control", rows = 3 })
+                @Html.ValidationMessageFor(m => Model.Reviews[i].ReviewContent, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(m => Model.Reviews[i].Rating, "คะแนน", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => Model.Reviews[i].Rating, new { htmlAttributes = new { @class = "form-control", type = "number", min = 1, max = 5 } })
+                @Html.ValidationMessageFor(m => Model.Reviews[i].Rating, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="บันทึก" class="btn btn-primary" />
+        </div>
+    </div>
+}

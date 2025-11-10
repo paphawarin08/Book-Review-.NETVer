@@ -1,0 +1,65 @@
+﻿@using BookDemo8.Models
+@model IEnumerable<BookDemo8.Models.UserWithReviewsViewModel>
+
+
+<h2>Manage Users and Reviews</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ขื่อผู้ใช้</th>
+            <th>อีเมล</th>
+            <th>โพสต์ทั้งหมด</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.User.UserName</td>
+                <td>@item.User.Email</td>
+                <td>
+                    @if (item.Reviews != null && item.Reviews.Any())
+                    {
+                        <ul>
+                            @foreach (var review in item.Reviews)
+                            {
+                                <li>
+                                    @review.BookTitle<br />
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No Reviews</span>
+                    }
+                </td>
+
+                <td style="display: flex; gap: 10px;">
+                    <a href="@Url.Action("DeleteUser", "Admin", new { id = item.User.Id })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    <a href="@Url.Action("EditUser", "Admin", new { id = item.User.Id })" class="btn btn-danger">Edit</a>
+                    <a href="@Url.Action("Detail", "Admin", new { id = item.User.Id })" class="btn btn-danger">Detail</a>
+                    <a href="@Url.Action("UserRatingChart", "Admin", new { id = item.User.Id })" class="btn btn-success">View Rating Chart</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+<style>
+    .fa-star {
+        color: gold; /* สีของดาวที่เต็ม */
+    }
+
+    .fa-star-o {
+        color: gray; /* สีของดาวที่ว่าง */
+    }
+
+    body {
+        background-color: #FFFFCC; /* พื้นหลังเว็บเป็นสีเหลือง */
+    }
+</style>

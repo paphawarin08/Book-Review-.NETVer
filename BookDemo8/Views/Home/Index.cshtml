@@ -1,0 +1,206 @@
+﻿@model IEnumerable<BookDemo8.BookReviews>
+
+
+<!-- แบนเนอร์ -->
+<div class="banner-container">
+    <div class="banner-slide">
+        <img src="https://static.trueplookpanya.com/cmsblog/791/84791/banner_file.jpg" alt="Banner Image 1" class="banner-image" />
+    </div>
+</div>
+
+
+<form method="get" action="@Url.Action("Index", "Home")" class="search-form">
+    <input type="text" name="searchString" placeholder="Search by title or category" value="@Request.QueryString["searchString"]" />
+
+    <label for="rating-filter">Filter by Rating:</label>
+    <select id="rating-filter" name="rating" class="rating-filter">
+        <option value="0" @(Request.QueryString["rating"] == "0" ? "selected" : "")>All</option>
+        <option value="5" @(Request.QueryString["rating"] == "5" ? "selected" : "")>5 Stars</option>
+        <option value="4" @(Request.QueryString["rating"] == "4" ? "selected" : "")>4 Stars</option>
+        <option value="3" @(Request.QueryString["rating"] == "3" ? "selected" : "")>3 Stars</option>
+        <option value="2" @(Request.QueryString["rating"] == "2" ? "selected" : "")>2 Stars</option>
+        <option value="1" @(Request.QueryString["rating"] == "1" ? "selected" : "")>1 Star</option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<div class="container">
+    <div class="row">
+        @foreach (var review in Model)
+        {
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="@Url.Content("~/Content/images/" + review.ImageUrl)" class="card-img-top" alt="Book Image" />
+                    <div class="card-body">
+                        <h5 class="card-title">@review.BookTitle</h5>
+                        <div class="rating">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                <span class="fa @(i < review.Rating ? "fa-star" : "fa-star-o")"></span>
+                            }
+                        </div>
+                        <p class="card-text">@review.ReviewContent</p>
+                        <div class="tag-container">
+                            <p class="tag">@review.Category</p>
+                        </div>
+                        <!-- ปุ่ม Detail ที่มีกรอบ -->
+                        <div class="btn-container">
+                            @Html.ActionLink("อ่านรีวิว", "Details", new { id = review.ReviewId }, new { @class = "btn-detail" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #FFFFCC; /* พื้นหลังเว็บเป็นสีเหลือง */
+    }
+
+    /* สไตล์สำหรับแบนเนอร์ */
+    .banner-container {
+        width: 100%;
+        height: 300px; /* กำหนดความสูงของแบนเนอร์ */
+        overflow: hidden;
+    }
+
+    .banner-image {
+        width: 100%;
+        height: auto;
+    }
+
+
+    .tag {
+        display: inline-block;
+        background-color: #f0f0f0;
+        color: #5A2A21;
+        font-size: 10px;
+        padding: 5px 10px;
+        border-radius: 15px;
+        border: 1px solid #5A2A21;
+        font-weight: bold;
+        text-align: center;
+        margin: 0px; /* เพิ่มช่องว่างระหว่างแท็ก */
+    }
+
+    .tag-container {
+        display: flex;
+        justify-content: center; /* จัดตรงกลางแนวนอน */
+        flex-wrap: wrap; /* ให้แท็กเรียงกันเมื่อพื้นที่ไม่พอ */
+    }
+
+    .tag:hover {
+        background-color: #5A2A21; /* เปลี่ยนสีพื้นหลังเมื่อ hover */
+        color: #ffffff; /* เปลี่ยนสีข้อความเมื่อ hover */
+        cursor: pointer; /* เปลี่ยน cursor เป็น pointer เมื่อ hover */
+    }
+
+
+    .search-form {
+        display: flex;
+        align-items: center; /* จัดให้อยู่ตรงกลางในแนวตั้ง */
+        justify-content: center; /* จัดให้อยู่ตรงกลางในแนวนอน */
+        margin: 20px auto; /* เพิ่มระยะห่างด้านบน-ล่าง */
+        width: 100%; /* ให้ฟอร์มขยายเต็มพื้นที่ */
+        max-width: 800px; /* กำหนดขนาดสูงสุดของฟอร์ม */
+    }
+
+        .search-form input {
+            flex-grow: 1; /* ขยายช่อง input ให้กินพื้นที่ที่เหลือ */
+            padding: 10px; /* เพิ่ม padding */
+            margin-right: 10px; /* เพิ่มระยะห่างระหว่างช่องและปุ่ม */
+            border: 1px solid #ccc; /* ขอบสีเทา */
+            border-radius: 15px; /* ขอบมน */
+            font-size: 16px; /* ขนาดข้อความ */
+            min-width: 0; /* ป้องกัน input จากการหดตัว */
+        }
+
+        .search-form button {
+            padding: 10px 20px; /* เพิ่ม padding */
+            background-color: #5A2A21; /* สีพื้นหลัง */
+            color: #fff; /* สีตัวอักษร */
+            border: none; /* เอาขอบออก */
+            border-radius: 5px; /* ขอบมน */
+            font-size: 16px; /* ขนาดตัวอักษร */
+            cursor: pointer; /* เปลี่ยน cursor เป็น pointer เมื่อ hover */
+        }
+
+    .fa-star {
+        color: gold;
+    }
+
+    .fa-star-o {
+        color: gray;
+    }
+
+    .rating {
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: center; /* จัดเรียงให้ดาวอยู่กลาง */
+    }
+
+    .card {
+        background-color: transparent;
+        border-radius: 30px;
+        width: 280px;
+        height: 590px;
+        padding: 20px;
+        margin: 5px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 30px; /* ขอบมน */
+    }
+
+    .card-title {
+        font-size: 16px; /* ปรับขนาดตัวอักษรของชื่อหนังสือ */
+        font-weight: bold; /* ทำให้ตัวอักษรหนาขึ้น */
+        text-align: center;
+    }
+
+    .card-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* ปรับให้แสดง 3 บรรทัด */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.5em;
+        max-height: 3.0em; /* ปรับความสูงให้เหมาะสมกับ 2 บรรทัด */
+        font-size: 16px;
+        color: #333;
+    }
+
+    /* สไตล์สำหรับปุ่ม Details */
+    .btn-container {
+        display: flex; /* ใช้ flexbox */
+        justify-content: center; /* จัดให้อยู่ตรงกลางแนวนอน */
+        margin: 10px 0px; /* เพิ่มระยะห่างด้านบนและล่าง */
+    }
+
+    .btn-detail {
+        display: inline-block;
+        padding: 5px 20px;
+        background-color: #5A2A21;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 20px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+
+        .btn-detail:hover {
+            background-color: white;
+            color: #5A2A21;
+        }
+</style>
+

@@ -1,0 +1,65 @@
+﻿@model BookDemo8.Models.UserWithReviewsViewModel
+
+@{
+    ViewBag.Title = "User Details";
+}
+
+<h2>User Details</h2>
+
+<div>
+    <h4>User Information</h4>
+    <p><strong>UserName:</strong> @Model.User.UserName</p>
+    <p><strong>Email:</strong> @Model.User.Email</p>
+</div>
+
+<div>
+    <h4>Reviews</h4>
+    @if (Model.Reviews != null && Model.Reviews.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Review</th>
+                    <th>Rating</th>
+                    <th>Photo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var review in Model.Reviews)
+                {
+                <tr>
+                    <td>@review.BookTitle</td>
+                    <td>@review.ReviewContent</td>
+                    <td>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <span class="fa @(i < review.Rating ? "fa-star" : "fa-star-o")"></span>}
+                    </td>
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No reviews available.</p>
+    }
+</div>
+
+<a href="@Url.Action("ManageUsers", "Admin")" class="btn btn-primary">Back to Manage Users</a>
+
+
+
+<style>
+    .fa-star {
+        color: gold; /* สีของดาวที่เต็ม */
+    }
+
+    .fa-star-o {
+        color: gray; /* สีของดาวที่ว่าง */
+    }
+
+
+</style>
